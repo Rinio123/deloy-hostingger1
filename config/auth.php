@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'sanctum', //token nếu dung auth:api
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -62,7 +66,8 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\NguoidungModel::class,
+            'table' => 'nguoidung', // không bắt buộc nếu đã khai báo $table trong model
         ],
 
         // 'users' => [

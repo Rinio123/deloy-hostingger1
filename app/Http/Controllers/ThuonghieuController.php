@@ -3,43 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Models\Thuonghieu;
+use App\Models\ThuongHieuModel;
 use Illuminate\Http\Request;
 
 class ThuonghieuController extends Controller
 {
     public function index()
     {
-        $thuonghieu = Thuonghieu::withCount('sanpham')->get();
-        return view('thuonghieu', compact('thuonghieu'));
+        $thuonghieu = ThuongHieuModel::withCount('sanpham')->get();
+        return view('thuonghieu.thuonghieu', compact('thuonghieu'));
     }
 
     public function create()
     {
-        return view('taothuonghieu');
+        return view('thuonghieu.taothuonghieu');
     }
 
     public function store(Request $request)
     {
-        Thuonghieu::create($request->only(['ten', 'mota', 'trangthai']));
+        ThuongHieuModel::create($request->only(['ten', 'mota', 'trangthai']));
         return redirect()->route('danh-sach-thuong-hieu')->with('success', 'Tạo thương hiệu thành công!');
     }
 
     public function edit($id)
     {
-        $thuonghieu = Thuonghieu::findOrFail($id);
-        return view('suathuonghieu', compact('thuonghieu'));
+        $thuonghieu = ThuongHieuModel::findOrFail($id);
+        return view('thuonghieu.suathuonghieu', compact('thuonghieu'));
     }
 
     public function update(Request $request, $id)
     {
-        $thuonghieu = Thuonghieu::findOrFail($id);
+        $thuonghieu = ThuongHieuModel::findOrFail($id);
         $thuonghieu->update($request->only(['ten', 'mota', 'trangthai']));
         return redirect()->route('danh-sach-thuong-hieu')->with('success', 'Đã cập nhật thành công!');
     }
 
     public function destroy($id)
     {
-        $thuonghieu = Thuonghieu::findOrFail($id);
+        $thuonghieu = ThuongHieuModel::findOrFail($id);
 
         // Check nếu có sản phẩm thì không cho xóa
         if ($thuonghieu->sanpham()->count() > 0) {

@@ -8,6 +8,7 @@ use App\Models\Thuonghieu;
 use App\Models\Danhmuc;
 use App\Models\Bienthesp;
 use App\Models\Loaibienthe;
+use App\Models\ThongTinNguoiBanHang;
 
 class BientheController extends Controller
 {
@@ -23,10 +24,10 @@ class BientheController extends Controller
         $sanphams = $query->orderBydesc('updated_at')->get();
 
         // Lấy thêm list danh mục & thương hiệu để render filter
-        $thuonghieus = ThuongHieu::all();
+        $cuaHang = ThongTinNguoiBanHang::all();
         $danhmucs = DanhMuc::all();
 
-        return view('khohang', compact('sanphams', 'bienthe', 'thuonghieus', 'danhmucs'));
+        return view('khohang.khohang', compact('sanphams', 'bienthe', 'cuaHang', 'danhmucs'));
     }
 
     public function edit(Request $request, $id)
@@ -35,7 +36,7 @@ class BientheController extends Controller
         $bienthe = Bienthesp::with(['loaiBienThe', 'sanpham'])->findOrFail($id);
         $loaibienthes = LoaiBienThe::all();
 
-        return view('suahangtonkho', compact('bienthe',  'loaibienthes'));
+        return view('khohang.suahangtonkho', compact('bienthe',  'loaibienthes'));
     }
 
     public function update(Request $request, $id)
